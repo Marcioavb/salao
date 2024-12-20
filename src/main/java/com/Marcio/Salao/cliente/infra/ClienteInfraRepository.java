@@ -2,8 +2,10 @@ package com.Marcio.Salao.cliente.infra;
 
 import com.Marcio.Salao.cliente.apllication.repository.ClienteRepository;
 import com.Marcio.Salao.cliente.domain.Cliente;
+import com.Marcio.Salao.handler.APIException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,15 @@ public class ClienteInfraRepository implements ClienteRepository {
         log.info("[inicia] ClienteInfraRepository- salva");
         clienteSpringDataJPARepository.save(cliente);
         log.info("[finaliza] ClienteInfraRepository- salva");
+        return cliente;
+    }
+
+    @Override
+    public Cliente buscaPorId(UUID idCliente) {
+        log.info("[inicia] ClienteInfraRepository - buscaPorId - idCliente: {}", idCliente);
+        Cliente cliente = clienteSpringDataJPARepository.findById(idCliente)
+                .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
+        log.info("[finaliza] ClienteInfraRepository - buscaPorId");
         return cliente;
     }
 }
