@@ -46,9 +46,6 @@ public class ClienteApllicationService implements ClienteService {
         log.info("[inicia] ClienteApllicationService - listaTodosCliente");
         Page<Cliente> clientes = clienteRepository.listaTodosClientes(pageable);
         log.info("[finaliza] ClienteApllicationService - listaTodosCliente");
-//        return clientes.getContent().stream() // Extrai a lista de clientes da Page
-//                .map(ClienteDetalhadoResponse::new)
-//                .collect(Collectors.toList()); // ✅ Usa Collectors
         return clientes.
                 map(ClienteDetalhadoResponse::new);
     }
