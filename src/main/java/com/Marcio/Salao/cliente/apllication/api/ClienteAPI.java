@@ -2,9 +2,12 @@ package com.Marcio.Salao.cliente.apllication.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequestMapping("/cliente")
@@ -25,4 +28,9 @@ public interface ClienteAPI {
     @ResponseStatus(code = HttpStatus.OK)
     ClienteDetalhadoResponse buscaClientePorId(@PathVariable UUID idCliente);
 
+    @GetMapping
+    @Operation(summary = "Lista todos os clientes",
+            description = "Retorna uma lista paginada de todos os clientes cadastrados.")
+    @ResponseStatus(HttpStatus.OK)
+    Page<ClienteDetalhadoResponse> listaTodosClientes(Pageable pageable);
 }
