@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface FuncionarioService {
     FuncionarioResponse criaFuncionario(FuncionarioRequest funcionarioRequest);
     FuncionarioDetalhadoResponse buscaFuncionarioPorId(UUID idFuncionario);
-    Page<FuncionarioDetalhadoResponse> buscaFuncionario(Pageable pageable);
+    Page<FuncionarioDetalhadoResponse> buscaTodosFuncionarios(Pageable pageable);
 }

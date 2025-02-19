@@ -20,13 +20,18 @@ public class Funcionario {
     @Column(columnDefinition = "uuid", updatable = false, unique = true, nullable = false)
     private UUID idFuncionario;
 
+    @Column(nullable = false, unique = true)
     @NotBlank
     private String nome;
 
+    @Column(nullable = false, length = 50)
     @NotBlank
     private String especialidade;
 
     private LocalDateTime dataCadastro;
+
+//    @OneToMany(mappedBy = "funcionario")
+//    private List<Agendamento> agendamentos;
 
 
     public Funcionario(FuncionarioRequest funcionarioRequest) {

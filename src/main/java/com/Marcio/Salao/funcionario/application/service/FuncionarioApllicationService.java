@@ -37,7 +37,7 @@ public class FuncionarioApllicationService implements FuncionarioService {
     }
 
     @Override
-    public Page<FuncionarioDetalhadoResponse> buscaFuncionario(Pageable pageable) {
+    public Page<FuncionarioDetalhadoResponse> buscaTodosFuncionarios(Pageable pageable) {
         log.info("[inicia] FuncionarioApllicationService - buscaFuncionario");
         Page<Funcionario> funcionarios = funcionarioRepository.buscaTodosFuncionario(pageable);
         log.info("[finaliza] FuncionarioApllicationService - buscaFuncionario");

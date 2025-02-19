@@ -1,6 +1,5 @@
 package com.Marcio.Salao.funcionario.application.api;
 
-import com.Marcio.Salao.cliente.apllication.api.ClienteDetalhadoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -16,9 +15,9 @@ public interface FuncionarioApi {
 
     @PostMapping
     @Operation(
-            summary = "Cadastra um novo cliente",
-            description = "Este endpoint cadastra um novo cliente no sistema, permitindo o " +
-                    "acesso a serviços e funcionalidades relacionadas ao cliente."
+            summary = "Este endpoint cadastra um novo funcionário",
+            description = "Este endpoint cadastra um novo funcionario no sistema, permitindo o " +
+                    "acesso a serviços e funcionalidades relacionadas ao funcionario."
     )   @ResponseStatus(HttpStatus.CREATED)
         FuncionarioResponse cadastraFuncionarios(@RequestBody FuncionarioRequest funcionarioRequest);
 

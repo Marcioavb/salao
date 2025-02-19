@@ -35,7 +35,7 @@ public class FuncionarioController implements FuncionarioApi {
     @Override
     public Page<FuncionarioDetalhadoResponse> listaTodosFuncionarios(Pageable pageable) {
         log.info("[inicia] FuncionarioController - listaTodosFuncionarios");
-        Page<FuncionarioDetalhadoResponse> funcionario = funcionarioService.buscaFuncionario(pageable);
+        Page<FuncionarioDetalhadoResponse> funcionario = funcionarioService.buscaTodosFuncionarios(pageable);
         log.info("[finaliza] FuncionarioController - listaTodosFuncionarios");
         return funcionario;
     }
