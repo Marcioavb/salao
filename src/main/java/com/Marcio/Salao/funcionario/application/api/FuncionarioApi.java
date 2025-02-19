@@ -1,7 +1,10 @@
 package com.Marcio.Salao.funcionario.application.api;
 
+import com.Marcio.Salao.cliente.apllication.api.ClienteDetalhadoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,4 +28,9 @@ public interface FuncionarioApi {
     @ResponseStatus(code = HttpStatus.OK)
     FuncionarioDetalhadoResponse buscafuncionarioPorId(@PathVariable UUID idFuncionario);
 
+    @GetMapping
+    @Operation(summary = "Lista todos os funcionario paginado",
+            description = "Retorna uma lista paginada de todos os funcionarios cadastrados.")
+    @ResponseStatus(HttpStatus.OK)
+    Page<FuncionarioDetalhadoResponse> listaTodosFuncionarios(Pageable pageable);
 }
