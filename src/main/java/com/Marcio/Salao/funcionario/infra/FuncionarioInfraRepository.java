@@ -22,9 +22,9 @@ public class FuncionarioInfraRepository implements FuncionarioRepository {
     @Override
     public Funcionario salva(Funcionario funcionario) {
         log.info("[inicia] FuncionarioInfraRepository - salva");
-        funcionarioSpringDataJPARepository.save(funcionario);
+        Funcionario funcionarioSalvo = funcionarioSpringDataJPARepository.save(funcionario);
         log.info("[finaliza] FuncionarioInfraRepository - salva");
-        return funcionario;
+        return funcionarioSalvo;
     }
 
     @Override
@@ -39,8 +39,8 @@ public class FuncionarioInfraRepository implements FuncionarioRepository {
     @Override
     public Page<Funcionario> buscaTodosFuncionario(Pageable pageable) {
         log.info("[inicia] FuncionarioInfraRepository - buscaTodosFuncionario");
-        Page<Funcionario> funcionario = funcionarioSpringDataJPARepository.findAll(pageable);
+        Page<Funcionario> funcionarios = funcionarioSpringDataJPARepository.findAll(pageable);
         log.info("[finaliza] FuncionarioInfraRepository - buscaTodosFuncionario");
-        return funcionario;
+        return funcionarios;
     }
 }
