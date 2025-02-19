@@ -1,0 +1,35 @@
+package com.Marcio.Salao.funcionario.application.api;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+@RequestMapping("/funcionario")
+@Tag(name = "Funcionario", description = "Endpoints relacionados ao gerenciamento de funcionarios.")
+public interface FuncionarioApi {
+
+    @PostMapping
+    @Operation(
+            summary = "Este endpoint cadastra um novo funcionário",
+            description = "Este endpoint cadastra um novo funcionario no sistema, permitindo o " +
+                    "acesso a serviços e funcionalidades relacionadas ao funcionario."
+    )   @ResponseStatus(HttpStatus.CREATED)
+        FuncionarioResponse cadastraFuncionarios(@RequestBody FuncionarioRequest funcionarioRequest);
+
+    @GetMapping(value = "/{idFuncionario}")
+    @Operation(summary = "Retorna um funcionario por ID",
+            description = "Este endpoint recupera os detalhes de um funcionario específico com base no ID fornecido.")
+    @ResponseStatus(code = HttpStatus.OK)
+    FuncionarioDetalhadoResponse buscafuncionarioPorId(@PathVariable UUID idFuncionario);
+
+    @GetMapping
+    @Operation(summary = "Lista todos os funcionario paginado",
+            description = "Retorna uma lista paginada de todos os funcionarios cadastrados.")
+    @ResponseStatus(HttpStatus.OK)
+    Page<FuncionarioDetalhadoResponse> listaTodosFuncionarios(Pageable pageable);
+}

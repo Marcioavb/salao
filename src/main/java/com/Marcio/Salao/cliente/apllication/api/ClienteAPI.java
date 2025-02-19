@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RequestMapping("/cliente")
@@ -19,7 +18,7 @@ public interface ClienteAPI {
             summary = "Cadastra um novo cliente",
             description = "Este endpoint cadastra um novo cliente no sistema, permitindo o " +
                     "acesso a serviços e funcionalidades relacionadas ao cliente."
-    )    @ResponseStatus(HttpStatus.CREATED)
+    ) @ResponseStatus(HttpStatus.CREATED)
     ClienteResponse cadastraCliente(@RequestBody ClienteRequest clienteRequest);
 
     @GetMapping(value = "/{idCliente}")
