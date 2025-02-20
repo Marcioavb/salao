@@ -26,7 +26,7 @@ public class ServicoApplicationService implements ServicoService {
 
         // Validação adicional (exemplo: duração máxima de 60 minutos)
         if (servicoRequest.getDuracao() > 60) {
-            throw APIException.build(HttpStatus.BAD_REQUEST, "Duração máxima é 1 horas (60 minutos)");
+            throw APIException.build(HttpStatus.BAD_REQUEST, "Duração máxima permitida é de 60 minutos)");
         }
 
         Servico servico = servicoRepository.salva(new Servico(servicoRequest));
