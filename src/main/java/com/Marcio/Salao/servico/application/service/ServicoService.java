@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 public interface ServicoService {
-    ServicoResponse cadastraNovoServico(ServicoRequest servicoRequest);
+    ServicoResponse cadastraServico(ServicoRequest servicoRequest);
     ServicoDetalhadoResponse buscaServicoPorId(UUID idServico);
     Page<ServicoDetalhadoResponse> listaTodosServicos(Pageable pageable);
 }

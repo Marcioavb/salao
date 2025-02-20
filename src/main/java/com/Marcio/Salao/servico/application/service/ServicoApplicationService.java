@@ -21,7 +21,7 @@ import java.util.UUID;
 public class ServicoApplicationService implements ServicoService {
     private final ServicoRepository servicoRepository;
     @Override
-    public ServicoResponse cadastraNovoServico(ServicoRequest servicoRequest) {
+    public ServicoResponse cadastraServico(ServicoRequest servicoRequest) {
         log.info("[inicia] ServicoApplicationService - cadastraNovoServico");
 
         // Validação adicional (exemplo: duração máxima de 60 minutos)

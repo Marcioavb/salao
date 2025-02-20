@@ -13,11 +13,13 @@ public class ServicoDetalhadoResponse {
     private String nome;
     private String descricao;
     private BigDecimal preco;
+    private Integer duracao;
 
     public ServicoDetalhadoResponse(Servico servico) {
         this.idServico = servico.getIdServico();
         this.nome = servico.getNome();
         this.descricao = servico.getDescricao();
         this.preco = servico.getPreco();
+        this.duracao = servico.getDuracao();
     }
 }

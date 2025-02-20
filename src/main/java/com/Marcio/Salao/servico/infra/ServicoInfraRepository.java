@@ -27,10 +27,10 @@ public class ServicoInfraRepository implements ServicoRepository {
 
     @Override
     public Servico buscaServicoPoId(UUID idServico) {
-        log.info("[inicia] ServicoInfraRepository - buscaServicoPoId");
+        log.info("[inicia] ServicoInfraRepository - buscaServicoPorId");
         Servico servico = servicoSpringDataJPARepository.findById(idServico)
                 .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "serviço não encontrado"));
-        log.info("[finaliza] ServicoInfraRepository - buscaServicoPoId");
+        log.info("[finaliza] ServicoInfraRepository - buscaServicoPorId");
         return servico;
     }
 

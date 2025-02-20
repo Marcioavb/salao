@@ -17,7 +17,7 @@ public class ServicoController implements ServicoApi {
     @Override
     public ServicoResponse cadastraServico(ServicoRequest servicoRequest) {
         log.info("[inicia] ServicoController - cadastraServico");
-        ServicoResponse servicoCriado = servicoService.cadastraNovoServico(servicoRequest);
+        ServicoResponse servicoCriado = servicoService.cadastraServico(servicoRequest);
         log.info("[finaliza] ServicoController - cadastraServico");
         return servicoCriado;
     }
