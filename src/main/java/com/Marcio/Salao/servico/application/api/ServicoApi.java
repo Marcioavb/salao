@@ -14,12 +14,12 @@ public interface ServicoApi {
     @PostMapping
     @Operation(summary = "Cadastra um novo serviço")
     @ResponseStatus(HttpStatus.CREATED)
-    ServicoResponse cadastraServico(@RequestBody ServicoRequest request);
+    ServicoResponse cadastraServico(@RequestBody ServicoRequest servicoRequest);
 
-//    @GetMapping(value = "/{idServico}")
-//    @Operation(summary = "Busca um serviço por ID")
-//    @ResponseStatus(HttpStatus.OK)
-//    ServicoDetalhadoResponse buscaServicoPorId(@PathVariable UUID idServico);
+    @GetMapping(value = "/{idServico}")
+    @Operation(summary = "Busca um serviço por ID")
+    @ResponseStatus(HttpStatus.OK)
+    ServicoDetalhadoResponse buscaServicoPorId(@PathVariable UUID idServico);
 //
 //    @GetMapping
 //    @Operation(summary = "Lista todos os serviços paginados")

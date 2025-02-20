@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,13 +25,17 @@ public class Servico {
     private String nome;
     private String descricao;
     @NotNull
+    @Positive(message = "A duração deve ser maior que zero")
+    private Integer duracao;
+    @NotNull
     private BigDecimal preco;
     private LocalDateTime dataCadastro;
 
-    public Servico(ServicoRequest request) {
-        this.nome = request.getNome();
-        this.descricao = request.getDescricao();
-        this.preco = request.getPreco();
+    public Servico(ServicoRequest servicoRequest) {
+        this.nome = servicoRequest.getNome();
+        this.descricao = servicoRequest.getDescricao();
+        this.duracao = servicoRequest.getDuracao();
+        this.preco = servicoRequest.getPreco();
         this.dataCadastro = LocalDateTime.now();
     }
 }

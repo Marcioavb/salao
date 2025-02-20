@@ -1,11 +1,13 @@
 package com.Marcio.Salao.servico.application.service;
 
+import com.Marcio.Salao.handler.APIException;
 import com.Marcio.Salao.servico.application.api.ServicoRequest;
 import com.Marcio.Salao.servico.application.api.ServicoResponse;
 import com.Marcio.Salao.servico.application.repository.ServicoRepository;
 import com.Marcio.Salao.servico.domain.Servico;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +18,12 @@ public class ServicoApplicationService implements ServicoService {
     @Override
     public ServicoResponse cadastraNovoServico(ServicoRequest servicoRequest) {
         log.info("[inicia] ServicoApplicationService - cadastraNovoServico");
+
+        // Validação adicional (exemplo: duração máxima de 60 minutos)
+        if (servicoRequest.getDuracao() > 60) {
+            throw APIException.build(HttpStatus.BAD_REQUEST, "Duração máxima é 1 horas (60 minutos)");
+        }
+
         Servico servico = servicoRepository.salva(new Servico(servicoRequest));
         log.info("[finaliza] ServicoApplicationService - cadastraNovoServico");
         return new ServicoResponse(servico);
