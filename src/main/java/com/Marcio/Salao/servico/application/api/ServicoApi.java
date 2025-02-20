@@ -2,6 +2,8 @@ package com.Marcio.Salao.servico.application.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +22,9 @@ public interface ServicoApi {
     @Operation(summary = "Busca um serviço por ID")
     @ResponseStatus(HttpStatus.OK)
     ServicoDetalhadoResponse buscaServicoPorId(@PathVariable UUID idServico);
-//
-//    @GetMapping
-//    @Operation(summary = "Lista todos os serviços paginados")
-//    @ResponseStatus(HttpStatus.OK)
-//    Page<ServicoDetalhadoResponse> listaTodosServicos(Pageable pageable);
+
+    @GetMapping
+    @Operation(summary = "Lista todos os serviços paginados")
+    @ResponseStatus(HttpStatus.OK)
+    Page<ServicoDetalhadoResponse> listaTodosServicos(Pageable pageable);
 }

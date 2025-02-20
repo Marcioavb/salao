@@ -8,6 +8,8 @@ import com.Marcio.Salao.servico.application.repository.ServicoRepository;
 import com.Marcio.Salao.servico.domain.Servico;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +40,14 @@ public class ServicoApplicationService implements ServicoService {
         Servico servico = servicoRepository.buscaServicoPoId(idServico);
         log.info("[finaliza] ServicoApplicationService - buscaServicoPorId");
         return new ServicoDetalhadoResponse(servico);
+    }
+
+    @Override
+    public Page<ServicoDetalhadoResponse> listaTodosServicos(Pageable pageable) {
+        log.info("[inicia] ServicoApplicationService - listaTodosServicos");
+        Page<Servico> servicos = servicoRepository.buscaTodosServicos(pageable);
+        log.info("[finaliza] ServicoApplicationService - listaTodosServicos");
+        return servicos
+                .map(ServicoDetalhadoResponse::new);
     }
 }
