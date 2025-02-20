@@ -1,6 +1,7 @@
 package com.Marcio.Salao.servico.application.service;
 
 import com.Marcio.Salao.handler.APIException;
+import com.Marcio.Salao.servico.application.api.ServicoDetalhadoResponse;
 import com.Marcio.Salao.servico.application.api.ServicoRequest;
 import com.Marcio.Salao.servico.application.api.ServicoResponse;
 import com.Marcio.Salao.servico.application.repository.ServicoRepository;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +30,13 @@ public class ServicoApplicationService implements ServicoService {
         Servico servico = servicoRepository.salva(new Servico(servicoRequest));
         log.info("[finaliza] ServicoApplicationService - cadastraNovoServico");
         return new ServicoResponse(servico);
+    }
+
+    @Override
+    public ServicoDetalhadoResponse buscaServicoPorId(UUID idServico) {
+        log.info("[inicia] ServicoApplicationService - buscaServicoPorId");
+        Servico servico = servicoRepository.buscaServicoPoId(idServico);
+        log.info("[finaliza] ServicoApplicationService - buscaServicoPorId");
+        return new ServicoDetalhadoResponse(servico);
     }
 }

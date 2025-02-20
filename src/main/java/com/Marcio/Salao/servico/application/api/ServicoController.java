@@ -23,8 +23,8 @@ public class ServicoController implements ServicoApi {
     @Override
     public ServicoDetalhadoResponse buscaServicoPorId(UUID idServico) {
         log.info("[inicia] ServicoController - buscaServicoPorId");
-
+        ServicoDetalhadoResponse servico = servicoService.buscaServicoPorId(idServico);
         log.info("[finaliza] ServicoController - buscaServicoPorId");
-        return null;
+        return servico;
     }
 }

@@ -1,10 +1,14 @@
 package com.Marcio.Salao.servico.infra;
 
+import com.Marcio.Salao.handler.APIException;
 import com.Marcio.Salao.servico.application.repository.ServicoRepository;
 import com.Marcio.Salao.servico.domain.Servico;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,5 +21,14 @@ public class ServicoInfraRepository implements ServicoRepository {
         Servico servicoCriado = servicoSpringDataJPARepository.save(servico);
         log.info("[finaliza] ServicoInfraRepository - salva");
         return servicoCriado;
+    }
+
+    @Override
+    public Servico buscaServicoPoId(UUID idServico) {
+        log.info("[inicia] ServicoInfraRepository - buscaServicoPoId");
+        Servico servico = servicoSpringDataJPARepository.findById(idServico)
+                .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "serviço não encontrado"));
+        log.info("[finaliza] ServicoInfraRepository - buscaServicoPoId");
+        return servico;
     }
 }
