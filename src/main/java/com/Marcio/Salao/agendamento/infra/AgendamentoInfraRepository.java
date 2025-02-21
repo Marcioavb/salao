@@ -1,7 +1,7 @@
-package com.Marcio.Salao.agendamento.application.repository;
+package com.Marcio.Salao.agendamento.infra;
 
+import com.Marcio.Salao.agendamento.application.repository.AgendamentoRepository;
 import com.Marcio.Salao.agendamento.domain.Agendamento;
-import com.Marcio.Salao.agendamento.infra.AgendamentoSpringDataJPARepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
@@ -28,5 +28,28 @@ public class AgendamentoInfraRepository implements AgendamentoRepository {
         boolean existe = agendamentoSpringDataJPARepository.existsByFuncionarioIdAndDataHora(idFuncionario, dataHora);
         log.info("[finaliza] AgendamentoInfraRepository - existeAgendamentoParaFuncionarioNaData");
         return existe;
+    }
+
+    public boolean existeConflitoAgendamento(UUID idFuncionario, LocalDateTime dataHora, Integer duracaoServico) {
+        log.info("[inicia] AgendamentoInfraRepository - existeConflitoAgendamento");
+        boolean existe = agendamentoSpringDataJPARepository.existsConflitoAgendamento(
+                idFuncionario,
+                dataHora,
+                duracaoServico
+        );
+        log.info("[finaliza] AgendamentoInfraRepository - existeConflitoAgendamento");
+        return existe;
+    }
+
+    @Override
+    public Agendamento findAgendamentoConflitante(UUID idFuncionario, LocalDateTime dataHora, Integer duracaoServico) {
+        log.info("[inicia] AgendamentoInfraRepository - findAgendamentoConflitante");
+        Agendamento conflito = agendamentoSpringDataJPARepository.findConflitoAgendamento(
+                idFuncionario,
+                dataHora,
+                duracaoServico
+        );
+        log.info("[finaliza] AgendamentoInfraRepository - findAgendamentoConflitante");
+        return conflito;
     }
 }
