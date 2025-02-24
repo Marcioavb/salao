@@ -2,8 +2,12 @@ package com.Marcio.Salao.agendamento.application.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 
 @Tag(name = "Agendamento", description = "Endpoints para agendar e gerenciar horários.")
@@ -15,17 +19,17 @@ public interface AgendamentoApi {
     @ResponseStatus(HttpStatus.CREATED)
     AgendamentoDetalhadoResponse criaAgendamento(@RequestBody AgendamentoRequest agendamentoRequest);
 
-//    @GetMapping("/{idAgendamento}")
-//    @Operation(summary = "Busca agendamento por ID")
-//    @ResponseStatus(HttpStatus.OK)
-//    AgendamentoDetalhadoResponse buscaAgendamentoPorId(@PathVariable UUID idAgendamento);
+    @GetMapping("/{idAgendamento}")
+    @Operation(summary = "Busca agendamento por ID")
+    @ResponseStatus(HttpStatus.OK)
+    AgendamentoDetalhadoResponse buscaAgendamentoPorId(@PathVariable UUID idAgendamento);
 
 //    @GetMapping("/funcionario/{idFuncionario}")
 //    @Operation(summary = "Lista agendamentos por funcionário")
 //    @ResponseStatus(HttpStatus.OK)
 //    Page<AgendamentoDetalhadoResponse> listaAgendamentosPorFuncionario
 //            (@PathVariable UUID idFuncionario, Pageable pageable);
-
+//
 //    @PatchMapping("/{idAgendamento}/cancelar")
 //    @Operation(summary = "Cancela um agendamento")
 //    @ResponseStatus(HttpStatus.NO_CONTENT)

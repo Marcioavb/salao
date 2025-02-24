@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -39,6 +40,14 @@ public class AgendamentoInfraRepository implements AgendamentoRepository {
         );
         log.info("[finaliza] AgendamentoInfraRepository - existeConflitoAgendamento");
         return existe;
+    }
+
+    @Override
+    public Optional<Agendamento> buscaPorId(UUID idAgendamento) {
+        log.info("[inicia] AgendamentoInfraRepository - buscaPorId");
+        Optional<Agendamento> agendamento = agendamentoSpringDataJPARepository.findById(idAgendamento);
+        log.info("[finaliza] AgendamentoInfraRepository - buscaPorId");
+        return agendamento;
     }
 
     @Override
