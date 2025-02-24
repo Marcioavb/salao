@@ -23,17 +23,16 @@ public interface AgendamentoSpringDataJPARepository extends JpaRepository<Agenda
             "FROM Agendamento a " +
             "WHERE a.funcionario.idFuncionario = :idFuncionario " +
             "AND ( " +
-            "(a.dataHora <= :novaDataHora AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) > :novaDataHora) " +
-            "OR " +
-            "(a.dataHora < FUNCTION('TIMESTAMPADD', MINUTE, :duracaoServico, :novaDataHora) AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) >= FUNCTION('TIMESTAMPADD', MINUTE, :duracaoServico, :novaDataHora)) " +
-            "OR " +
-            "(a.dataHora >= :novaDataHora AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) <= FUNCTION('TIMESTAMPADD', MINUTE, :duracaoServico, :novaDataHora)) " +
+            "   (a.dataHora <= :novaDataHora AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) > :novaDataHora) " +
+            "   OR " +
+            "   (a.dataHora <= FUNCTION('TIMESTAMPADD', MINUTE, :duracaoServico, :novaDataHora) AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) >= :novaDataHora) " +
             ")")
     boolean existsConflitoAgendamento(
             @Param("idFuncionario") UUID idFuncionario,
             @Param("novaDataHora") LocalDateTime novaDataHora,
             @Param("duracaoServico") Integer duracaoServico
     );
+
     // Busca o agendamento conflitante
     @Query("SELECT a FROM Agendamento a " +
             "WHERE a.funcionario.idFuncionario = :idFuncionario " +

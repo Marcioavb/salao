@@ -48,8 +48,16 @@ public class AgendamentoApplicationService implements AgendamentoService {
     }
 
     private void validaConflitoHorario(UUID idFuncionario, LocalDateTime dataHora, Integer duracaoServico) {
-        if (agendamentoRepository.existeConflitoAgendamento(idFuncionario, dataHora, duracaoServico)) {
-            throw APIException.build(HttpStatus.CONFLICT, "Conflito de horário! O funcionário já possui um agendamento nesse período.");
+        log.info("[inicia] validaConflitoHorario - Validando conflito para funcionário: {}, dataHora: {}, " +
+                "duracao: {}", idFuncionario, dataHora, duracaoServico);
+        boolean conflito = agendamentoRepository.existeConflitoAgendamento(idFuncionario, dataHora, duracaoServico);
+        if (conflito) {
+            log.warn("[conflito] validaConflitoHorario - Conflito detectado para funcionário: {}, dataHora: {}",
+                    idFuncionario, dataHora);
+            throw APIException.build(HttpStatus.CONFLICT, "Conflito de horário! O funcionário já possui um" +
+                    " agendamento nesse período.");
         }
+        log.info("[finaliza] validaConflitoHorario - Sem conflitos para funcionário: {}, dataHora: {}",
+                idFuncionario, dataHora);
     }
 }
