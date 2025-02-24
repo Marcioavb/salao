@@ -23,9 +23,11 @@ public interface AgendamentoSpringDataJPARepository extends JpaRepository<Agenda
             "FROM Agendamento a " +
             "WHERE a.funcionario.idFuncionario = :idFuncionario " +
             "AND ( " +
-            "   (a.dataHora <= :novaDataHora AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) > :novaDataHora) " +
+            "   (a.dataHora <= :novaDataHora AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) > " +
+            ":novaDataHora) " +
             "   OR " +
-            "   (a.dataHora <= FUNCTION('TIMESTAMPADD', MINUTE, :duracaoServico, :novaDataHora) AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) >= :novaDataHora) " +
+            "   (a.dataHora <= FUNCTION('TIMESTAMPADD', MINUTE, :duracaoServico, :novaDataHora) AND FUNCTION('TIMESTAMPADD'" +
+            ", MINUTE, a.servico.duracao, a.dataHora) >= :novaDataHora) " +
             ")")
     boolean existsConflitoAgendamento(
             @Param("idFuncionario") UUID idFuncionario,
@@ -39,9 +41,11 @@ public interface AgendamentoSpringDataJPARepository extends JpaRepository<Agenda
             "AND ( " +
             "(a.dataHora <= :novaDataHora AND a.dataHora + a.servico.duracao * 60 * 1000 > :novaDataHora) " +
             "OR " +
-            "(a.dataHora < :novaDataHora + :duracaoServico * 60 * 1000 AND a.dataHora + a.servico.duracao * 60 * 1000 >= :novaDataHora + :duracaoServico * 60 * 1000) " +
+            "(a.dataHora < :novaDataHora + :duracaoServico * 60 * 1000 AND a.dataHora + a.servico.duracao * 60 * 1000 >=" +
+            " :novaDataHora + :duracaoServico * 60 * 1000) " +
             "OR " +
-            "(a.dataHora >= :novaDataHora AND a.dataHora + a.servico.duracao * 60 * 1000 <= :novaDataHora + :duracaoServico * 60 * 1000) " +
+            "(a.dataHora >= :novaDataHora AND a.dataHora + a.servico.duracao * 60 * 1000 <= :novaDataHora + :duracaoServico " +
+            "* 60 * 1000) " +
             ")")
     Agendamento findConflitoAgendamento(
             @Param("idFuncionario") UUID idFuncionario,
