@@ -38,11 +38,11 @@ public class AgendamentoController implements AgendamentoApi {
         log.info("[finaliza] AgendamentoController - listaAgendamentosPorFuncionario");
         return response;
     }
-//
-//    @Override
-//    public void cancelaAgendamento(UUID idAgendamento) {
-//        log.info("[inicia] AgendamentoController - cancelaAgendamento");
-//        agendamentoService.cancelaAgendamento(idAgendamento);
-//        log.info("[finaliza] AgendamentoController - cancelaAgendamento");
-//    }
+
+    @Override
+    public void cancelaAgendamento(UUID idAgendamento) {
+        log.info("[inicia] AgendamentoController - cancelaAgendamento");
+        agendamentoService.cancelaAgendamento(idAgendamento);
+        log.info("[finaliza] AgendamentoController - cancelaAgendamento");
+    }
 }

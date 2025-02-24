@@ -4,6 +4,7 @@ import com.Marcio.Salao.agendamento.application.api.AgendamentoDetalhadoResponse
 import com.Marcio.Salao.agendamento.application.api.AgendamentoRequest;
 import com.Marcio.Salao.agendamento.application.repository.AgendamentoRepository;
 import com.Marcio.Salao.agendamento.domain.Agendamento;
+import com.Marcio.Salao.agendamento.domain.StatusAgendamento;
 import com.Marcio.Salao.cliente.apllication.repository.ClienteRepository;
 import com.Marcio.Salao.funcionario.application.repository.FuncionarioRepository;
 import com.Marcio.Salao.handler.APIException;
@@ -59,25 +60,25 @@ public class AgendamentoApplicationService implements AgendamentoService {
         log.info("[finaliza] AgendamentoApplicationService - listaAgendamentosPorFuncionario");
         return agendamentos.map(AgendamentoDetalhadoResponse::new);
     }
-//
-//    @Override
-//    public void cancelaAgendamento(UUID idAgendamento) {
-//        log.info("[inicia] AgendamentoApplicationService - cancelaAgendamento");
-//        Agendamento agendamento = agendamentoRepository.buscaPorId(idAgendamento)
-//                .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Agendamento não encontrado!"));
-//
-//        if (agendamento.getStatus() == StatusAgendamento.CANCELADO) {
-//            throw APIException.build(HttpStatus.BAD_REQUEST, "Agendamento já está cancelado!");
-//        }
-//
-//        if (agendamento.getDataHora().isBefore(LocalDateTime.now())) {
-//            throw APIException.build(HttpStatus.BAD_REQUEST, "Não é possível cancelar agendamentos passados!");
-//        }
-//
-//        agendamento.setStatus(StatusAgendamento.CANCELADO);
-//        agendamentoRepository.salva(agendamento);
-//        log.info("[finaliza] AgendamentoApplicationService - cancelaAgendamento");
-//    }
+
+    @Override
+    public void cancelaAgendamento(UUID idAgendamento) {
+        log.info("[inicia] AgendamentoApplicationService - cancelaAgendamento");
+        Agendamento agendamento = agendamentoRepository.buscaPorId(idAgendamento)
+                .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Agendamento não encontrado!"));
+
+        if (agendamento.getStatus() == StatusAgendamento.CANCELADO) {
+            throw APIException.build(HttpStatus.BAD_REQUEST, "Agendamento já está cancelado!");
+        }
+
+        if (agendamento.getDataHora().isBefore(LocalDateTime.now())) {
+            throw APIException.build(HttpStatus.BAD_REQUEST, "Não é possível cancelar agendamentos passados!");
+        }
+
+        agendamento.setStatus(StatusAgendamento.CANCELADO);
+        agendamentoRepository.salva(agendamento);
+        log.info("[finaliza] AgendamentoApplicationService - cancelaAgendamento");
+    }
 
     private void validaDataHoraFutura(LocalDateTime dataHora) {
         if (dataHora.isBefore(LocalDateTime.now())) {

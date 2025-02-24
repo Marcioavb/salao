@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
+
 @ToString
 @Entity
 @Builder
@@ -58,5 +59,9 @@ public class Agendamento {
         if (dataHora.isBefore(LocalDateTime.now())) {
             throw APIException.build(HttpStatus.BAD_REQUEST, "Data/hora não pode ser no passado!");
         }
+    }
+
+    public void setStatus(StatusAgendamento status) {
+        this.status = status;
     }
 }

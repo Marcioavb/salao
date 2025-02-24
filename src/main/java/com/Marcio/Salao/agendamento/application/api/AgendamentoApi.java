@@ -29,9 +29,9 @@ public interface AgendamentoApi {
     @ResponseStatus(HttpStatus.OK)
     Page<AgendamentoDetalhadoResponse> listaAgendamentosPorFuncionario
             (@PathVariable UUID idFuncionario, Pageable pageable);
-//
-//    @PatchMapping("/{idAgendamento}/cancelar")
-//    @Operation(summary = "Cancela um agendamento")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    void cancelaAgendamento(@PathVariable UUID idAgendamento);
+
+    @PatchMapping("/{idAgendamento}/cancelar")
+    @Operation(summary = "Cancela um agendamento")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void cancelaAgendamento(@PathVariable UUID idAgendamento);
 }
