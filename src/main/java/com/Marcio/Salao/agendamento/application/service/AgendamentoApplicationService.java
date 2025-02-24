@@ -10,6 +10,8 @@ import com.Marcio.Salao.handler.APIException;
 import com.Marcio.Salao.servico.application.repository.ServicoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -50,13 +52,13 @@ public class AgendamentoApplicationService implements AgendamentoService {
         return new AgendamentoDetalhadoResponse(agendamento);
     }
 
-//    @Override
-//    public Page<AgendamentoDetalhadoResponse> listaAgendamentosPorFuncionario(UUID idFuncionario, Pageable pageable) {
-//        log.info("[inicia] AgendamentoApplicationService - listaAgendamentosPorFuncionario");
-//        Page<Agendamento> agendamentos = agendamentoRepository.buscaPorFuncionario(idFuncionario, pageable);
-//        log.info("[finaliza] AgendamentoApplicationService - listaAgendamentosPorFuncionario");
-//        return agendamentos.map(AgendamentoDetalhadoResponse::new);
-//    }
+    @Override
+    public Page<AgendamentoDetalhadoResponse> listaAgendamentosPorFuncionario(UUID idFuncionario, Pageable pageable) {
+        log.info("[inicia] AgendamentoApplicationService - listaAgendamentosPorFuncionario");
+        Page<Agendamento> agendamentos = agendamentoRepository.buscaPorFuncionario(idFuncionario, pageable);
+        log.info("[finaliza] AgendamentoApplicationService - listaAgendamentosPorFuncionario");
+        return agendamentos.map(AgendamentoDetalhadoResponse::new);
+    }
 //
 //    @Override
 //    public void cancelaAgendamento(UUID idAgendamento) {

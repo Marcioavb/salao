@@ -24,11 +24,11 @@ public interface AgendamentoApi {
     @ResponseStatus(HttpStatus.OK)
     AgendamentoDetalhadoResponse buscaAgendamentoPorId(@PathVariable UUID idAgendamento);
 
-//    @GetMapping("/funcionario/{idFuncionario}")
-//    @Operation(summary = "Lista agendamentos por funcionário")
-//    @ResponseStatus(HttpStatus.OK)
-//    Page<AgendamentoDetalhadoResponse> listaAgendamentosPorFuncionario
-//            (@PathVariable UUID idFuncionario, Pageable pageable);
+    @GetMapping("/funcionario/{idFuncionario}")
+    @Operation(summary = "Lista agendamentos por funcionário")
+    @ResponseStatus(HttpStatus.OK)
+    Page<AgendamentoDetalhadoResponse> listaAgendamentosPorFuncionario
+            (@PathVariable UUID idFuncionario, Pageable pageable);
 //
 //    @PatchMapping("/{idAgendamento}/cancelar")
 //    @Operation(summary = "Cancela um agendamento")

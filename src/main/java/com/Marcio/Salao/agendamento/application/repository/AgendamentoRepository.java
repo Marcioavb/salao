@@ -14,5 +14,5 @@ public interface AgendamentoRepository {
     Agendamento findAgendamentoConflitante(UUID idFuncionario, LocalDateTime dataHora, Integer duracaoServico);
     boolean existeConflitoAgendamento(UUID idFuncionario, LocalDateTime dataHora, Integer duracaoServico);
     Optional<Agendamento> buscaPorId(UUID idAgendamento);
-    //Page<Agendamento> buscaPorFuncionario(UUID idFuncionario, Pageable pageable);
+    Page<Agendamento> buscaPorFuncionario(UUID idFuncionario, Pageable pageable);
 }

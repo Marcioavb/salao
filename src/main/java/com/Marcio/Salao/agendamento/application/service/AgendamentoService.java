@@ -10,6 +10,6 @@ import java.util.UUID;
 public interface AgendamentoService {
     AgendamentoDetalhadoResponse criaAgendamento(AgendamentoRequest agendamentoRequest);
     AgendamentoDetalhadoResponse buscaAgendamentoPorId(UUID idAgendamento);
-    //Page<AgendamentoDetalhadoResponse> listaAgendamentosPorFuncionario(UUID idFuncionario, Pageable pageable);
+    Page<AgendamentoDetalhadoResponse> listaAgendamentosPorFuncionario(UUID idFuncionario, Pageable pageable);
     //void cancelaAgendamento(UUID idAgendamento);
 }

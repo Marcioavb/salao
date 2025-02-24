@@ -4,6 +4,8 @@ import com.Marcio.Salao.agendamento.application.repository.AgendamentoRepository
 import com.Marcio.Salao.agendamento.domain.Agendamento;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -48,6 +50,14 @@ public class AgendamentoInfraRepository implements AgendamentoRepository {
         Optional<Agendamento> agendamento = agendamentoSpringDataJPARepository.findById(idAgendamento);
         log.info("[finaliza] AgendamentoInfraRepository - buscaPorId");
         return agendamento;
+    }
+
+    @Override
+    public Page<Agendamento> buscaPorFuncionario(UUID idFuncionario, Pageable pageable) {
+        log.info("[inicia] AgendamentoInfraRepository - buscaPorFuncionario");
+        Page<Agendamento> agendamentos = agendamentoSpringDataJPARepository.findByFuncionarioIdFuncionario(idFuncionario, pageable);
+        log.info("[finaliza] AgendamentoInfraRepository - buscaPorFuncionario");
+        return agendamentos;
     }
 
     @Override

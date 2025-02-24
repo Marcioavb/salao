@@ -1,6 +1,8 @@
 package com.Marcio.Salao.agendamento.infra;
 
 import com.Marcio.Salao.agendamento.domain.Agendamento;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -52,4 +54,5 @@ public interface AgendamentoSpringDataJPARepository extends JpaRepository<Agenda
             @Param("novaDataHora") LocalDateTime novaDataHora,
             @Param("duracaoServico") Integer duracaoServico
     );
+    Page<Agendamento> findByFuncionarioIdFuncionario(UUID idFuncionario, Pageable pageable);
 }
