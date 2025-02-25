@@ -22,7 +22,7 @@ public class Servico {
     @Column(columnDefinition = "uuid", updatable = false, unique = true, nullable = false)
     private UUID idServico;
     @NotBlank
-    private String nome;
+    private String nomeServico;
     private String descricao;
     @NotNull
     @Positive(message = "A duração deve ser maior que zero")
@@ -32,7 +32,7 @@ public class Servico {
     private LocalDateTime dataCadastro;
 
     public Servico(ServicoRequest servicoRequest) {
-        this.nome = servicoRequest.getNome();
+        this.nomeServico = servicoRequest.getNome();
         this.descricao = servicoRequest.getDescricao();
         this.duracao = servicoRequest.getDuracao();
         this.preco = servicoRequest.getPreco();
