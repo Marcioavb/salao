@@ -47,8 +47,11 @@ public class AgendamentoApplicationService implements AgendamentoService {
     @Override
     public AgendamentoDetalhadoResponse buscaAgendamentoPorId(UUID idAgendamento) {
         log.info("[inicia] AgendamentoApplicationService - buscaAgendamentoPorId");
+
         Agendamento agendamento = agendamentoRepository.buscaPorId(idAgendamento)
                 .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Agendamento não encontrado!"));
+        verificaEAtualizaStatus(agendamento); // <--- Verificação automática
+
         log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentoPorId");
         return new AgendamentoDetalhadoResponse(agendamento);
     }
@@ -56,9 +59,13 @@ public class AgendamentoApplicationService implements AgendamentoService {
     @Override
     public Page<AgendamentoDetalhadoResponse> listaAgendamentosPorFuncionario(UUID idFuncionario, Pageable pageable) {
         log.info("[inicia] AgendamentoApplicationService - listaAgendamentosPorFuncionario");
+
         Page<Agendamento> agendamentos = agendamentoRepository.buscaPorFuncionario(idFuncionario, pageable);
+        agendamentos.forEach(this::verificaEAtualizaStatus); // <--- Verificação automática
+
         log.info("[finaliza] AgendamentoApplicationService - listaAgendamentosPorFuncionario");
         return agendamentos.map(AgendamentoDetalhadoResponse::new);
+
     }
 
     @Override
@@ -98,5 +105,16 @@ public class AgendamentoApplicationService implements AgendamentoService {
         }
         log.info("[finaliza] validaConflitoHorario - Sem conflitos para funcionário: {}, dataHora: {}",
                 idFuncionario, dataHora);
+    }
+
+    private void verificaEAtualizaStatus(Agendamento agendamento) {
+        LocalDateTime agora = LocalDateTime.now(); // Pega a hora atual do sistema
+        LocalDateTime termino = agendamento.getDataHoraTermino(); // Hora de término do serviço
+
+        if (agora.isAfter(termino) && agendamento.getStatus() == StatusAgendamento.CONFIRMADO) {
+            agendamento.setStatus(StatusAgendamento.FINALIZADO);
+            agendamentoRepository.salva(agendamento); // Salvar a alteração no banco
+            log.info("Agendamento {} atualizado para FINALIZADO", agendamento.getIdAgendamento());
+        }
     }
 }

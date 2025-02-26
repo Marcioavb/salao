@@ -64,4 +64,8 @@ public class Agendamento {
     public void setStatus(StatusAgendamento status) {
         this.status = status;
     }
+
+    public LocalDateTime getDataHoraTermino() {
+        return this.dataHora.plusMinutes(this.servico.getDuracao());
+    }
 }

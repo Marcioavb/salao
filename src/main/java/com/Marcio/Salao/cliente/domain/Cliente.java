@@ -31,5 +31,4 @@ public class Cliente {
         this.telefone = clienteRequest.getTelefone();
         this.dataCadastro = LocalDateTime.now();
     }
-
 }

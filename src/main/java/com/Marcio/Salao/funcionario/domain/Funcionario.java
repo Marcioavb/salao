@@ -30,9 +30,6 @@ public class Funcionario {
 
     private LocalDateTime dataCadastro;
 
-//    @OneToMany(mappedBy = "funcionario")
-//    private List<Agendamento> agendamentos;
-
 
     public Funcionario(FuncionarioRequest funcionarioRequest) {
         this.nome = funcionarioRequest.getNome();

@@ -17,7 +17,7 @@ public class ServicoDetalhadoResponse {
 
     public ServicoDetalhadoResponse(Servico servico) {
         this.idServico = servico.getIdServico();
-        this.nome = servico.getNome();
+        this.nome = servico.getNomeServico();
         this.descricao = servico.getDescricao();
         this.preco = servico.getPreco();
         this.duracao = servico.getDuracao();
