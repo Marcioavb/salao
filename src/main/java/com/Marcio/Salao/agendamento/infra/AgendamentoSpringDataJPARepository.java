@@ -19,20 +19,18 @@ public interface AgendamentoSpringDataJPARepository extends JpaRepository<Agenda
             @Param("idFuncionario") UUID idFuncionario,
             @Param("dataHora") LocalDateTime dataHora
     );
-
-    // Verifica se existe conflito
     @Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END " +
             "FROM Agendamento a " +
             "WHERE a.funcionario.idFuncionario = :idFuncionario " +
+            "AND a.salao.idSalao = :idSalao " +
             "AND ( " +
-            "   (a.dataHora <= :novaDataHora AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) > " +
-            ":novaDataHora) " +
+            "   (a.dataHora <= :novaDataHora AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) > :novaDataHora) " +
             "   OR " +
-            "   (a.dataHora <= FUNCTION('TIMESTAMPADD', MINUTE, :duracaoServico, :novaDataHora) AND FUNCTION('TIMESTAMPADD'" +
-            ", MINUTE, a.servico.duracao, a.dataHora) >= :novaDataHora) " +
+            "   (a.dataHora <= FUNCTION('TIMESTAMPADD', MINUTE, :duracaoServico, :novaDataHora) AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) >= :novaDataHora) " +
             ")")
     boolean existsConflitoAgendamento(
             @Param("idFuncionario") UUID idFuncionario,
+            @Param("idSalao") UUID idSalao,
             @Param("novaDataHora") LocalDateTime novaDataHora,
             @Param("duracaoServico") Integer duracaoServico
     );
@@ -40,17 +38,17 @@ public interface AgendamentoSpringDataJPARepository extends JpaRepository<Agenda
     // Busca o agendamento conflitante
     @Query("SELECT a FROM Agendamento a " +
             "WHERE a.funcionario.idFuncionario = :idFuncionario " +
+            "AND a.salao.idSalao = :idSalao " +
             "AND ( " +
-            "(a.dataHora <= :novaDataHora AND a.dataHora + a.servico.duracao * 60 * 1000 > :novaDataHora) " +
-            "OR " +
-            "(a.dataHora < :novaDataHora + :duracaoServico * 60 * 1000 AND a.dataHora + a.servico.duracao * 60 * 1000 >=" +
-            " :novaDataHora + :duracaoServico * 60 * 1000) " +
-            "OR " +
-            "(a.dataHora >= :novaDataHora AND a.dataHora + a.servico.duracao * 60 * 1000 <= :novaDataHora + :duracaoServico " +
-            "* 60 * 1000) " +
+            "   (a.dataHora <= :novaDataHora AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) > :novaDataHora) " +
+            "   OR " +
+            "   (a.dataHora <= FUNCTION('TIMESTAMPADD', MINUTE, :duracaoServico, :novaDataHora) AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) >= :novaDataHora) " +
+            "   OR " +
+            "   (a.dataHora >= :novaDataHora AND FUNCTION('TIMESTAMPADD', MINUTE, a.servico.duracao, a.dataHora) <= FUNCTION('TIMESTAMPADD', MINUTE, :duracaoServico, :novaDataHora)) " +
             ")")
     Agendamento findConflitoAgendamento(
             @Param("idFuncionario") UUID idFuncionario,
+            @Param("idSalao") UUID idSalao,
             @Param("novaDataHora") LocalDateTime novaDataHora,
             @Param("duracaoServico") Integer duracaoServico
     );

@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.UUID;
 
 @ToString
 @Getter
@@ -17,4 +19,7 @@ public class FuncionarioRequest {
     @NotBlank(message = "Especialidade é obrigatória")
     @Size(min = 3, max = 50, message = "Especialidade deve ter entre 3 e 50 caracteres")
     private String especialidade;
+
+    @NotNull
+    private UUID idSalao;
 }

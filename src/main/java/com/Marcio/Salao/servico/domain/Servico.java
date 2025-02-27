@@ -1,4 +1,5 @@
 package com.Marcio.Salao.servico.domain;
+import com.Marcio.Salao.salao.domain.Salao;
 import com.Marcio.Salao.servico.application.api.ServicoRequest;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 @ToString
 @Entity
 @Builder
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class Servico {
     @Id
@@ -29,13 +30,19 @@ public class Servico {
     private Integer duracao;
     @NotNull
     private BigDecimal preco;
+
+    @ManyToOne
+    @JoinColumn(name = "id_salao", nullable = false)
+    private Salao salao;
+
     private LocalDateTime dataCadastro;
 
-    public Servico(ServicoRequest servicoRequest) {
-        this.nomeServico = servicoRequest.getNome();
+    public Servico(ServicoRequest servicoRequest,Salao salao) {
+        this.nomeServico = servicoRequest.getNomeServico();
         this.descricao = servicoRequest.getDescricao();
         this.duracao = servicoRequest.getDuracao();
         this.preco = servicoRequest.getPreco();
+        this.salao = salao;
         this.dataCadastro = LocalDateTime.now();
     }
 }

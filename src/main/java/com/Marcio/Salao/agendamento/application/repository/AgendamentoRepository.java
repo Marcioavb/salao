@@ -11,8 +11,8 @@ import java.util.UUID;
 public interface AgendamentoRepository {
     void salva(Agendamento agendamento);
     boolean existeAgendamentoParaFuncionarioNaData(UUID idFuncionario, LocalDateTime dataHora);
-    Agendamento findAgendamentoConflitante(UUID idFuncionario, LocalDateTime dataHora, Integer duracaoServico);
-    boolean existeConflitoAgendamento(UUID idFuncionario, LocalDateTime dataHora, Integer duracaoServico);
+    Agendamento findAgendamentoConflitante(UUID idFuncionario, UUID idSalao,LocalDateTime dataHora, Integer duracaoServico);
+    boolean existeConflitoAgendamento(UUID idFuncionario, UUID idSalao, LocalDateTime dataHora, Integer duracaoServico);
     Optional<Agendamento> buscaPorId(UUID idAgendamento);
     Page<Agendamento> buscaPorFuncionario(UUID idFuncionario, Pageable pageable);
 }

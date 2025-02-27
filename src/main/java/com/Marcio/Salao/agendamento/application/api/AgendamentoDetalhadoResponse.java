@@ -4,6 +4,7 @@ import com.Marcio.Salao.agendamento.domain.Agendamento;
 import com.Marcio.Salao.agendamento.domain.StatusAgendamento;
 import lombok.Getter;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Getter

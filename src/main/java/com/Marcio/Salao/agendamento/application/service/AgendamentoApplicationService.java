@@ -7,8 +7,11 @@ import com.Marcio.Salao.agendamento.domain.Agendamento;
 import com.Marcio.Salao.agendamento.domain.StatusAgendamento;
 import com.Marcio.Salao.cliente.apllication.repository.ClienteRepository;
 import com.Marcio.Salao.funcionario.application.repository.FuncionarioRepository;
+import com.Marcio.Salao.funcionario.domain.Funcionario;
 import com.Marcio.Salao.handler.APIException;
+import com.Marcio.Salao.salao.domain.Salao;
 import com.Marcio.Salao.servico.application.repository.ServicoRepository;
+import com.Marcio.Salao.servico.domain.Servico;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Service
@@ -35,13 +39,36 @@ public class AgendamentoApplicationService implements AgendamentoService {
         var cliente = clienteRepository.buscaPorId(request.getIdCliente());
         var funcionario = funcionarioRepository.buscaFuncionarioID(request.getIdFuncionario());
         var servico = servicoRepository.buscaServicoPoId(request.getIdServico());
+
+        // Validações adicionais:
+        validaMesmoSalao(funcionario, servico);
+        validaHorarioFuncionamento(funcionario.getSalao(), request.getDataHora());
+
         validaConflitoHorario(funcionario.getIdFuncionario(), request.getDataHora(), servico.getDuracao());
 
-        var agendamento = new Agendamento(cliente, funcionario, servico, request.getDataHora());
+        var agendamento = new Agendamento(cliente, funcionario, servico, funcionario.getSalao(), request.getDataHora());
         agendamentoRepository.salva(agendamento);
 
         log.info("[finaliza] AgendamentoApplicationService - criaAgendamento");
         return new AgendamentoDetalhadoResponse(agendamento);
+    }
+
+    // Métodos de validação (adicione dentro da classe):
+    private void validaMesmoSalao(Funcionario funcionario, Servico servico) {
+        if (!funcionario.getSalao().getIdSalao().equals(servico.getSalao().getIdSalao())) {
+            throw APIException.build(HttpStatus.BAD_REQUEST,
+                    "Funcionário e serviço devem pertencer ao mesmo salão!");
+        }
+    }
+
+    private void validaHorarioFuncionamento(Salao salao, LocalDateTime dataHora) {
+        LocalTime horaAgendamento = dataHora.toLocalTime();
+
+        if (horaAgendamento.isBefore(salao.getHorarioAbertura())
+                || horaAgendamento.isAfter(salao.getHorarioFechamento())) {
+            throw APIException.build(HttpStatus.BAD_REQUEST,
+                    "Agendamento fora do horário de funcionamento do salão!");
+        }
     }
 
     @Override
@@ -94,17 +121,20 @@ public class AgendamentoApplicationService implements AgendamentoService {
     }
 
     private void validaConflitoHorario(UUID idFuncionario, LocalDateTime dataHora, Integer duracaoServico) {
-        log.info("[inicia] validaConflitoHorario - Validando conflito para funcionário: {}, dataHora: {}, " +
-                "duracao: {}", idFuncionario, dataHora, duracaoServico);
-        boolean conflito = agendamentoRepository.existeConflitoAgendamento(idFuncionario, dataHora, duracaoServico);
+        // Busca o funcionário para obter o salão
+        Funcionario funcionario = funcionarioRepository.buscaFuncionarioID(idFuncionario);
+        UUID idSalao = funcionario.getSalao().getIdSalao();
+
+        boolean conflito = agendamentoRepository.existeConflitoAgendamento(
+                idFuncionario,
+                idSalao,
+                dataHora,
+                duracaoServico
+        );
+
         if (conflito) {
-            log.warn("[conflito] validaConflitoHorario - Conflito detectado para funcionário: {}, dataHora: {}",
-                    idFuncionario, dataHora);
-            throw APIException.build(HttpStatus.CONFLICT, "Conflito de horário! O funcionário já possui um" +
-                    " agendamento nesse período.");
+            throw APIException.build(HttpStatus.CONFLICT, "Conflito de horário! O funcionário já possui um agendamento nesse período.");
         }
-        log.info("[finaliza] validaConflitoHorario - Sem conflitos para funcionário: {}, dataHora: {}",
-                idFuncionario, dataHora);
     }
 
     private void verificaEAtualizaStatus(Agendamento agendamento) {

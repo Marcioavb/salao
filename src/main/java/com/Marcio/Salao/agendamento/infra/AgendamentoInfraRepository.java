@@ -33,10 +33,11 @@ public class AgendamentoInfraRepository implements AgendamentoRepository {
         return existe;
     }
 
-    public boolean existeConflitoAgendamento(UUID idFuncionario, LocalDateTime dataHora, Integer duracaoServico) {
+    public boolean existeConflitoAgendamento(UUID idFuncionario, UUID idSalao, LocalDateTime dataHora, Integer duracaoServico) {
         log.info("[inicia] AgendamentoInfraRepository - existeConflitoAgendamento");
         boolean existe = agendamentoSpringDataJPARepository.existsConflitoAgendamento(
                 idFuncionario,
+                idSalao, // Novo parâmetro
                 dataHora,
                 duracaoServico
         );
@@ -61,10 +62,11 @@ public class AgendamentoInfraRepository implements AgendamentoRepository {
     }
 
     @Override
-    public Agendamento findAgendamentoConflitante(UUID idFuncionario, LocalDateTime dataHora, Integer duracaoServico) {
+    public Agendamento findAgendamentoConflitante(UUID idFuncionario, UUID idSalao, LocalDateTime dataHora, Integer duracaoServico) {
         log.info("[inicia] AgendamentoInfraRepository - findAgendamentoConflitante");
         Agendamento conflito = agendamentoSpringDataJPARepository.findConflitoAgendamento(
                 idFuncionario,
+                idSalao,
                 dataHora,
                 duracaoServico
         );
