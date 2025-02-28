@@ -138,13 +138,11 @@ public class AgendamentoApplicationService implements AgendamentoService {
     }
 
     private void verificaEAtualizaStatus(Agendamento agendamento) {
-        LocalDateTime agora = LocalDateTime.now(); // Pega a hora atual do sistema
-        LocalDateTime termino = agendamento.getDataHoraTermino(); // Hora de término do serviço
-
-        if (agora.isAfter(termino) && agendamento.getStatus() == StatusAgendamento.CONFIRMADO) {
+        if (agendamento.getStatus() == StatusAgendamento.CONFIRMADO
+                && agendamento.getDataHoraTermino().isBefore(LocalDateTime.now())) {
             agendamento.setStatus(StatusAgendamento.FINALIZADO);
-            agendamentoRepository.salva(agendamento); // Salvar a alteração no banco
-            log.info("Agendamento {} atualizado para FINALIZADO", agendamento.getIdAgendamento());
+            agendamentoRepository.salva(agendamento);
+            log.info("Agendamento {} finalizado automaticamente!", agendamento.getIdAgendamento());
         }
     }
 }
