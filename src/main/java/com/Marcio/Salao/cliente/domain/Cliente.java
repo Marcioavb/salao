@@ -12,7 +12,7 @@ import java.util.UUID;
 @ToString
 @Entity
 @Builder
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class Cliente {
 

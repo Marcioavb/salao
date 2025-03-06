@@ -1,6 +1,8 @@
 package com.Marcio.Salao.servico.application.service;
 
 import com.Marcio.Salao.handler.APIException;
+import com.Marcio.Salao.salao.application.repository.SalaoRepository;
+import com.Marcio.Salao.salao.domain.Salao;
 import com.Marcio.Salao.servico.application.api.ServicoDetalhadoResponse;
 import com.Marcio.Salao.servico.application.api.ServicoRequest;
 import com.Marcio.Salao.servico.application.api.ServicoResponse;
@@ -20,16 +22,19 @@ import java.util.UUID;
 @Log4j2
 public class ServicoApplicationService implements ServicoService {
     private final ServicoRepository servicoRepository;
+    private final SalaoRepository salaoRepository;
+
     @Override
     public ServicoResponse cadastraServico(ServicoRequest servicoRequest) {
         log.info("[inicia] ServicoApplicationService - cadastraNovoServico");
 
-        // Validação adicional (exemplo: duração máxima de 60 minutos)
-        if (servicoRequest.getDuracao() > 60) {
-            throw APIException.build(HttpStatus.BAD_REQUEST, "Duração máxima permitida é de 60 minutos)");
-        }
+        // Busca o salão pelo ID do request
+        Salao salao = salaoRepository.buscaSalaoPorId(servicoRequest.getIdSalao());
 
-        Servico servico = servicoRepository.salva(new Servico(servicoRequest));
+        // Cria o serviço vinculado ao salão
+        Servico servico = new Servico(servicoRequest, salao);
+        servicoRepository.salva(servico);
+
         log.info("[finaliza] ServicoApplicationService - cadastraNovoServico");
         return new ServicoResponse(servico);
     }
