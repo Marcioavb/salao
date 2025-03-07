@@ -17,3 +17,8 @@ spring:
   springdoc:
     swagger-ui:
       path: /public/swagger
+
+salao:
+  jwt:
+    expiracao: ${JWT_TEMPO_EXPIRACAO:15}
+    chave: ${JWT_CHAVE:123456}
