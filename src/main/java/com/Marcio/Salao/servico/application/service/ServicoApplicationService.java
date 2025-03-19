@@ -28,10 +28,8 @@ public class ServicoApplicationService implements ServicoService {
     public ServicoResponse cadastraServico(ServicoRequest servicoRequest) {
         log.info("[inicia] ServicoApplicationService - cadastraNovoServico");
 
-        // Busca o salão pelo ID do request
         Salao salao = salaoRepository.buscaSalaoPorId(servicoRequest.getIdSalao());
 
-        // Cria o serviço vinculado ao salão
         Servico servico = new Servico(servicoRequest, salao);
         servicoRepository.salva(servico);
 

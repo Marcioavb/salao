@@ -76,7 +76,6 @@ public class FiltroToken extends OncePerRequestFilter {
 		return authorization;
 	}
 
-
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		String path = request.getRequestURI();

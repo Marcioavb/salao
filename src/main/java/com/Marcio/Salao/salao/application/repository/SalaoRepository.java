@@ -14,5 +14,3 @@ public interface SalaoRepository {
     Page<Salao> buscaTodosSaloes(Pageable pageable);
     Salao buscaSalaoPorId(UUID idSalao);
 }
-
-

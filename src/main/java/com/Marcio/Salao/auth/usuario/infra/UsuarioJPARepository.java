@@ -10,5 +10,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UsuarioJPARepository extends JpaRepository <Usuario, UUID>{
 
 	Optional<Usuario> findByIdUsuario(UUID idUsuario);
-
 }

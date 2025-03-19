@@ -13,10 +13,5 @@ public class WebSocketController {
         // Log para rastrear o recebimento de notificações
         System.out.println("Notificação recebida: " + notificacao.getMensagem());
         return notificacao;
-
-//    @MessageMapping("/notificacao")
-//    @SendTo("/topic/notificacoes")
-//    public Notificacao enviarNotificacao(Notificacao notificacao) {
-//        return notificacao;
     }
 }

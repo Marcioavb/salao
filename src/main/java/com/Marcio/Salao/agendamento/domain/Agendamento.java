@@ -55,7 +55,7 @@ public class Agendamento {
         this.cliente = cliente;
         this.funcionario = funcionario;
         this.servico = servico;
-        this.salao = salao; // Adicionado
+        this.salao = salao;
         this.dataHora = dataHora;
         this.dataCriacao = LocalDateTime.now();
         this.status = StatusAgendamento.CONFIRMADO;

@@ -35,17 +35,12 @@ public class Salao {
     @Column(nullable = false)
     private LocalTime horarioFechamento;
 
-    // Relacionamento com Dono (usuário) - Opcional, se quiser vincular a um usuário
-//    @Column(nullable = false)
-//    private UUID idDonoSalao; // ID do usuário dono do salão
-
     public Salao(SalaoRequest salaoRequest) {
         this.nomeSalao = salaoRequest.getNomeSalao();
         this.endereco = salaoRequest.getEndereco();
         this.telefone = salaoRequest.getTelefone();
         this.dataCadastro = LocalDateTime.now();
-        this.horarioAbertura = salaoRequest.getHorarioAbertura(); // Novo
-        this.horarioFechamento = salaoRequest.getHorarioFechamento(); // Novo
-        //this.idDonoSalao = salaoRequest.getIdDono();
+        this.horarioAbertura = salaoRequest.getHorarioAbertura();
+        this.horarioFechamento = salaoRequest.getHorarioFechamento();
     }
 }

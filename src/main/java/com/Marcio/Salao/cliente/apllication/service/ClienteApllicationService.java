@@ -50,4 +50,3 @@ public class ClienteApllicationService implements ClienteService {
                 map(ClienteDetalhadoResponse::new);
     }
 }
-

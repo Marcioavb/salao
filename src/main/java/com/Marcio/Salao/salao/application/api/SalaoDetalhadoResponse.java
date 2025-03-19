@@ -20,7 +20,6 @@ public class SalaoDetalhadoResponse {
     private LocalTime horarioAbertura;
     private LocalTime horarioFechamento;
     private LocalDateTime dataCadastro;
-    //private UUID idDonoSalao;
 
     public SalaoDetalhadoResponse(Salao salao) {
         this.idSalao = salao.getIdSalao();
@@ -30,6 +29,5 @@ public class SalaoDetalhadoResponse {
         this.horarioAbertura = salao.getHorarioAbertura();
         this.horarioFechamento = salao.getHorarioFechamento();
         this.dataCadastro = salao.getDataCadastro();
-        //this.idDonoSalao = salao.getIdDonoSalao();
     }
 }

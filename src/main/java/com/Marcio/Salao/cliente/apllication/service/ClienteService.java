@@ -13,5 +13,4 @@ public interface ClienteService {
     ClienteResponse criacliente(ClienteRequest clienteRequest);
     ClienteDetalhadoResponse buscaclientePorId(UUID idCliente);
     Page<ClienteDetalhadoResponse> listaTodosClientes(Pageable pageable);
-
 }

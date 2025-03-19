@@ -24,16 +24,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/ws")
                 .setAllowedOrigins("*") // Permite todas as origens (ajuste para produção)
                 .withSockJS(); // Habilita suporte a SockJS para compatibilidade
-
-//    @Override
-//    public void configureMessageBroker(MessageBrokerRegistry config) {
-//        config.enableSimpleBroker("/topic"); // Tópico para enviar mensagens
-//        config.setApplicationDestinationPrefixes("/app"); // Prefixo para receber mensagens
-//    }
-//
-//    @Override
-//    public void registerStompEndpoints(StompEndpointRegistry registry) {
-//        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS(); // Endpoint WebSocket
     }
 }
-

@@ -12,9 +12,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Notificacao {
-    private String mensagem; // Mensagem da notificação
-    private String tipo; // Tipo da notificação (ex: AGENDAMENTO, CANCELAMENTO, FINALIZADO)
-    private UUID idSalao; // ID do salão relacionado
-    private UUID idFuncionario; // ID do funcionário relacionado
-    private UUID idCliente; // ID do cliente relacionado
+    private String mensagem;
+    private String tipo;
+    private UUID idSalao;
+    private UUID idFuncionario;
+    private UUID idCliente;
 }

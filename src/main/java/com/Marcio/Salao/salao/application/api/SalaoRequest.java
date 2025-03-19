@@ -18,8 +18,6 @@ public class SalaoRequest {
     private String endereco;
     @NotBlank
     private String telefone;
-//    @NotNull
-//    private UUID idDono; // ID do usuário dono
     @NotNull
     private LocalTime horarioAbertura;
     @NotNull
