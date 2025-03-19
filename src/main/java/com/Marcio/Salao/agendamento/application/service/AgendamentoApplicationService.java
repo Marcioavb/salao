@@ -9,6 +9,8 @@ import com.Marcio.Salao.cliente.apllication.repository.ClienteRepository;
 import com.Marcio.Salao.funcionario.application.repository.FuncionarioRepository;
 import com.Marcio.Salao.funcionario.domain.Funcionario;
 import com.Marcio.Salao.handler.APIException;
+import com.Marcio.Salao.notificacoes.domain.Notificacao;
+import com.Marcio.Salao.notificacoes.service.NotificacaoService;
 import com.Marcio.Salao.salao.domain.Salao;
 import com.Marcio.Salao.servico.application.repository.ServicoRepository;
 import com.Marcio.Salao.servico.domain.Servico;
@@ -30,6 +32,7 @@ public class AgendamentoApplicationService implements AgendamentoService {
     private final ClienteRepository clienteRepository;
     private final FuncionarioRepository funcionarioRepository;
     private final ServicoRepository servicoRepository;
+    private final NotificacaoService notificacaoService; // Injetado para enviar notificações
 
     @Override
     public AgendamentoDetalhadoResponse criaAgendamento(AgendamentoRequest request) {
@@ -40,14 +43,27 @@ public class AgendamentoApplicationService implements AgendamentoService {
         var funcionario = funcionarioRepository.buscaFuncionarioID(request.getIdFuncionario());
         var servico = servicoRepository.buscaServicoPoId(request.getIdServico());
 
-        // Validações adicionais:
         validaMesmoSalao(funcionario, servico);
         validaHorarioFuncionamento(funcionario.getSalao(), request.getDataHora());
-
         validaConflitoHorario(funcionario.getIdFuncionario(), request.getDataHora(), servico.getDuracao());
 
         var agendamento = new Agendamento(cliente, funcionario, servico, funcionario.getSalao(), request.getDataHora());
         agendamentoRepository.salva(agendamento);
+
+        // Notificação de agendamento criado
+        String mensagem = String.format("Novo agendamento: %s para %s às %s",
+                servico.getNomeServico(),
+                cliente.getNomeCompleto(),
+                agendamento.getDataHora().toLocalTime().toString()); // Horário de início
+
+        Notificacao notificacao = new Notificacao(
+                mensagem,
+                "AGENDAMENTO",
+                funcionario.getSalao().getIdSalao(),
+                funcionario.getIdFuncionario(),
+                cliente.getIdCliente()
+        );
+        notificacaoService.enviarNotificacao(notificacao);
 
         log.info("[finaliza] AgendamentoApplicationService - criaAgendamento");
         return new AgendamentoDetalhadoResponse(agendamento);
@@ -111,6 +127,22 @@ public class AgendamentoApplicationService implements AgendamentoService {
 
         agendamento.setStatus(StatusAgendamento.CANCELADO);
         agendamentoRepository.salva(agendamento);
+
+        // Notificação de agendamento cancelado
+        String mensagem = String.format("Agendamento cancelado: %s para %s às %s",
+                agendamento.getServico().getNomeServico(),
+                agendamento.getCliente().getNomeCompleto(),
+                agendamento.getDataHora().toLocalTime().toString()); // Horário de início
+
+        Notificacao notificacao = new Notificacao(
+                mensagem,
+                "CANCELAMENTO",
+                agendamento.getSalao().getIdSalao(),
+                agendamento.getFuncionario().getIdFuncionario(),
+                agendamento.getCliente().getIdCliente()
+        );
+        notificacaoService.enviarNotificacao(notificacao);
+
         log.info("[finaliza] AgendamentoApplicationService - cancelaAgendamento");
     }
 
@@ -142,6 +174,22 @@ public class AgendamentoApplicationService implements AgendamentoService {
                 && agendamento.getDataHoraTermino().isBefore(LocalDateTime.now())) {
             agendamento.setStatus(StatusAgendamento.FINALIZADO);
             agendamentoRepository.salva(agendamento);
+
+            // Notificação de agendamento finalizado
+            String mensagem = String.format("Agendamento finalizado: %s para %s às %s",
+                    agendamento.getServico().getNomeServico(),
+                    agendamento.getCliente().getNomeCompleto(),
+                    agendamento.getDataHoraTermino().toLocalTime().toString()); // Horário de término
+
+            Notificacao notificacao = new Notificacao(
+                    mensagem,
+                    "FINALIZADO",
+                    agendamento.getSalao().getIdSalao(),
+                    agendamento.getFuncionario().getIdFuncionario(),
+                    agendamento.getCliente().getIdCliente()
+            );
+            notificacaoService.enviarNotificacao(notificacao);
+
             log.info("Agendamento {} finalizado automaticamente!", agendamento.getIdAgendamento());
         }
     }
