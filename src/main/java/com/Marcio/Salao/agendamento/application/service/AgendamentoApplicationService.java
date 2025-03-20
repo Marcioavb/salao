@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Service
@@ -51,19 +52,14 @@ public class AgendamentoApplicationService implements AgendamentoService {
         agendamentoRepository.salva(agendamento);
 
         // Notificação de agendamento criado
-        String mensagem = String.format("Novo agendamento: %s para %s às %s",
+        String mensagem = String.format("Novo agendamento no salão %s: %s para %s em %s com o funcionario %s",
+                funcionario.getSalao().getNomeSalao(), // Supondo que o salão tenha um nome
                 servico.getNomeServico(),
                 cliente.getNomeCompleto(),
-                agendamento.getDataHora().toLocalTime().toString()); // Horário de início
+                agendamento.getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                funcionario.getNome()); // Nome do funcionário
 
-        Notificacao notificacao = new Notificacao(
-                mensagem,
-                "AGENDAMENTO",
-                funcionario.getSalao().getIdSalao(),
-                funcionario.getIdFuncionario(),
-                cliente.getIdCliente()
-        );
-        notificacaoService.enviarNotificacao(notificacao);
+        notificacaoService.enviarNotificacao(agendamento, "CRIADO");
 
         log.info("[finaliza] AgendamentoApplicationService - criaAgendamento");
         return new AgendamentoDetalhadoResponse(agendamento);
@@ -132,16 +128,9 @@ public class AgendamentoApplicationService implements AgendamentoService {
         String mensagem = String.format("Agendamento cancelado: %s para %s às %s",
                 agendamento.getServico().getNomeServico(),
                 agendamento.getCliente().getNomeCompleto(),
-                agendamento.getDataHora().toLocalTime().toString()); // Horário de início
+                agendamento.getDataHora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
 
-        Notificacao notificacao = new Notificacao(
-                mensagem,
-                "CANCELAMENTO",
-                agendamento.getSalao().getIdSalao(),
-                agendamento.getFuncionario().getIdFuncionario(),
-                agendamento.getCliente().getIdCliente()
-        );
-        notificacaoService.enviarNotificacao(notificacao);
+        notificacaoService.enviarNotificacao(agendamento, "CANCELADO");
 
         log.info("[finaliza] AgendamentoApplicationService - cancelaAgendamento");
     }
@@ -179,17 +168,9 @@ public class AgendamentoApplicationService implements AgendamentoService {
             String mensagem = String.format("Agendamento finalizado: %s para %s às %s",
                     agendamento.getServico().getNomeServico(),
                     agendamento.getCliente().getNomeCompleto(),
-                    agendamento.getDataHoraTermino().toLocalTime().toString()); // Horário de término
+                    agendamento.getDataHoraTermino().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
 
-            Notificacao notificacao = new Notificacao(
-                    mensagem,
-                    "FINALIZADO",
-                    agendamento.getSalao().getIdSalao(),
-                    agendamento.getFuncionario().getIdFuncionario(),
-                    agendamento.getCliente().getIdCliente()
-            );
-            notificacaoService.enviarNotificacao(notificacao);
-
+            notificacaoService.enviarNotificacao(agendamento, "FINALIZADO");
             log.info("Agendamento {} finalizado automaticamente!", agendamento.getIdAgendamento());
         }
     }

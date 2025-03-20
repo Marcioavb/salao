@@ -17,4 +17,6 @@ public class Notificacao {
     private UUID idSalao;
     private UUID idFuncionario;
     private UUID idCliente;
+    private String status;
+    private String tempoRestante;
 }
